@@ -1,4 +1,4 @@
-int[] recursions = new int[width * height];
+int[][] recursions = new int[width][height];
 
 float xPos;
 float yPos;
@@ -23,9 +23,13 @@ void draw() {
 
 void recursiveFunction() {
   stroke(return_strokeColor());
+  
   //line(xPos, yPos, xPos + randomX, yPos + randomY);
-  for (int i = 0, i < recursions.length
-  ellipse(xPos + randomX, yPos + randomY, 3, 3);
+  for (int i = 0; i < width; i++) {
+    for (int j = 0; j < height; j++) {
+       ellipse(xPos + randomX, yPos + randomY, 3, 3);
+    }
+  }
   
   xPos += randomX;
   yPos += randomY;
