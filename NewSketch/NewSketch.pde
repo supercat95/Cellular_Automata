@@ -2,6 +2,8 @@ int displayWidth = 400;
 int displayHeight = 400;
 Cell[][] cells = new Cell[displayWidth][displayHeight];
 
+int increment = 20;
+
 void setup() {
   size(displayWidth,displayHeight);
   for (int i = 0; i < displayWidth; i++) {
@@ -10,11 +12,14 @@ void setup() {
       cells[i][j].setValue();
     }
   }
-  println(cells[12][300].getValue());
-  println(cells[399][190].getValue());
   
 }
 
 void draw() {
-  
+  for (int i = 0; i < displayWidth; i+= increment) {
+    for (int j = 0; j < displayHeight; j+= increment) {
+      cells[i][j].assignValueToColor();
+      cells[i][j].drawCell(i,j,increment);
+    }
+  }
 }
