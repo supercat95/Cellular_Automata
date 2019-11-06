@@ -12,6 +12,10 @@ class Cell {
     cellColor = color(0,0,0);
     pixelSize = 1;
   }
+  
+  Cell(int newColor) {
+    cellColor = newColor;
+  }
   //========================================================
   void setValue() {
     value = int(random(2));
