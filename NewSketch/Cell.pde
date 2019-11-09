@@ -6,16 +6,15 @@ class Cell {
   int yPos;
   
   int pixelSize;
+  
+  int rule;
 
   Cell() {
     value = 0;
-    cellColor = color(0,0,0);
+    cellColor = color(125,125,125);
     pixelSize = 1;
   }
-  
-  Cell(int newColor) {
-    cellColor = newColor;
-  }
+ 
   //========================================================
   void setValue() {
     value = int(random(2));
@@ -24,8 +23,9 @@ class Cell {
   int getValue() {
     return value;
   }
-  //--------------------------------------------------------
-  void assignValueToColor() {
+  //--------------------------------------------------------  
+  void set_cellColor(int rule) {
+    value = rule;
     if (value == 0) { 
       cellColor = color(0,0,0);
     } else {
@@ -33,13 +33,18 @@ class Cell {
     }
   }
   
+  color get_cellColor() {
+    return cellColor;
+  }
+  
+  //--------------------------------------------------------  
   void drawCell(int xPosition, int yPosition, int increment) {
     xPos = xPosition;
     yPos = yPosition;
     pixelSize = increment;
     
     noStroke();
-    fill(cellColor);
+    fill(get_cellColor());
     rect(xPos, yPos, pixelSize, pixelSize);
   }
   
