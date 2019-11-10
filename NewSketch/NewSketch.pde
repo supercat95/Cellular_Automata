@@ -14,20 +14,17 @@ int result;
 
 void setup() {
   size(displayWidth,displayHeight);
-  frameRate(20);
+  //frameRate(20);
   
   initializeCells();
 }
 
 void draw() {
-  //println(cells[7][12].getValue(), cells[300][300].getValue()); // works for the first 5 or so frames
-  setRules(); // something weird going on here
-  //println(rules(1,0,0)); // works
+  setRules(); // grid for a split second then a pattern for eternity
   
   for (int i = 0; i < displayWidth; i+= increment) {
     for (int j = 0; j < displayHeight; j+= increment) {  
-      //println(cells[i][j].getValue()); // works but color is default
-      cells[i][j].drawCell(i,j,increment, this.result);
+      cells[i][j].drawCell(i,j,increment, result);
     }
   }
  
@@ -39,12 +36,10 @@ void initializeCells() {
     for (int j = 0; j < displayHeight; j++) {
       cells[i][j] = new Cell();
       cells[i][j].setValue();  
-      //println(cells[i][j].getValue()); // works
       
       newCells[i][j] = new Cell();
     }
   }
-  //println(cells[7][12].getValue()); // works
 }
 
 void setRules() {
@@ -53,16 +48,14 @@ void setRules() {
       cellToLeft = cells[i-increment][j-increment].getValue();
       cellInMiddle = cells[i][j-increment].getValue();
       cellToRight = cells[i+increment][j-increment].getValue();
-      println(cells[20][20].getValue(), cells[40][40].getValue()); // doesn't work
-      //println(cellToLeft, cellInMiddle, cellToRight); // doesn't work
       
       result = rules(cellToLeft, cellInMiddle, cellToRight);
-      //println(result);
+      println(cellToLeft, cellInMiddle, cellToRight, result); // works
       newCells[i][j].set_cellColor(result);
-      //cells[i][j].set_cellColor(result);
     }
   }
   cells = newCells;
+  //println(cells[20][20].getValue(), cells[100][20].getValue()); // ?
 }
 
 //--------------------------------------------------------

@@ -26,14 +26,13 @@ class Cell {
   
   //--------------------------------------------------------  
   void set_cellColor(int rule) {
-    this.value = rule;
-    if (this.value == 0) { this.cellColor = color(0,0,0); } 
-    if (this.value == 1) { this.cellColor = color(255,255,255); }
-    if (this.value == 2) { this.cellColor = color(0,255,0); }
+    value = rule;
+    if (value == 0) { cellColor = color(0,0,0); } 
+    if (value == 1) { cellColor = color(255,255,255); }
   }
   
   color get_cellColor() {
-    return this.cellColor;
+    return cellColor;
   }
   
   //--------------------------------------------------------  
@@ -41,10 +40,10 @@ class Cell {
     xPos = xPosition;
     yPos = yPosition;
     pixelSize = increment;
-    this.set_cellColor(rule);
+    //set_cellColor(rule);
     
     noStroke();
-    fill(this.get_cellColor());
+    fill(get_cellColor());
     rect(xPos, yPos, pixelSize, pixelSize);
   }
   
