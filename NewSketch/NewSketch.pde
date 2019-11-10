@@ -9,12 +9,15 @@ int cellToLeft;
 int cellInMiddle;
 int cellToRight;
 
-int[] ruleset = {1,0,1,0,1,0,0,1};
+int[] ruleset1 = {1,0,1,0,1,0,0,1};
+int[] ruleset2 = {1,1,1,0,1,1,0,1};
+int[] ruleset3 = {1,0,0,1,0,0,1,1};
+int[] ruleset4 = {1,0,1,1,0,0,1,1};
 int result;
 
 void setup() {
   size(displayWidth,displayHeight);
-  //frameRate(20);
+  frameRate(20);
   
   initializeCells();
 }
@@ -49,7 +52,7 @@ void setRules() {
       cellInMiddle = cells[i][j-increment].getValue();
       cellToRight = cells[i+increment][j-increment].getValue();
       
-      result = rules(cellToLeft, cellInMiddle, cellToRight);
+      result = rules1(cellToLeft, cellInMiddle, cellToRight);
       println(cellToLeft, cellInMiddle, cellToRight, result); // works
       newCells[i][j].set_cellColor(result);
     }
@@ -59,14 +62,14 @@ void setRules() {
 }
 
 //--------------------------------------------------------
-int rules(int left, int middle, int right) {
-  if (left == 0 && middle == 0 && right == 0) { return ruleset[0]; }
-  else if (left == 1 && middle == 0 && right == 0) { return ruleset[1]; }
-  else if (left == 1 && middle == 1 && right == 0) { return ruleset[2]; }
-  else if (left == 1 && middle == 1 && right == 1) { return ruleset[3]; }
-  else if (left == 0 && middle == 1 && right == 1) { return ruleset[4]; }
-  else if (left == 0 && middle == 0 && right == 1) { return ruleset[5]; }
-  else if (left == 1 && middle == 0 && right == 1) { return ruleset[6]; }
-  else if (left == 0 && middle == 1 && right == 0) { return ruleset[7]; }
-  return (ruleset[int(random(ruleset.length))]);
+int rules1(int left, int middle, int right) {
+  if (left == 0 && middle == 0 && right == 0) { return ruleset1[0]; }
+  else if (left == 1 && middle == 0 && right == 0) { return ruleset1[1]; }
+  else if (left == 1 && middle == 1 && right == 0) { return ruleset1[2]; }
+  else if (left == 1 && middle == 1 && right == 1) { return ruleset1[3]; }
+  else if (left == 0 && middle == 1 && right == 1) { return ruleset1[4]; }
+  else if (left == 0 && middle == 0 && right == 1) { return ruleset1[5]; }
+  else if (left == 1 && middle == 0 && right == 1) { return ruleset1[6]; }
+  else if (left == 0 && middle == 1 && right == 0) { return ruleset1[7]; }
+  return (ruleset1[int(random(ruleset1.length))]);
 }
