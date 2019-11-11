@@ -9,7 +9,7 @@ class Cell {
 
   Cell() {
     value = 0;
-    cellColor = color(255,0,0);
+    cellColor = color(4,122,198, 100);
     xPos = 0;
     yPos = 0;
     pixelSize = 1;
@@ -27,8 +27,8 @@ class Cell {
   //--------------------------------------------------------  
   void set_cellColor(int rule) {
     value = rule;
-    if (value == 0) { cellColor = color(0,0,0); } 
-    if (value == 1) { cellColor = color(255,255,255); }
+    if (value == 1) { cellColor = color(0,0,0); } 
+    if (value == 0) { cellColor = color(255,255,255); }
   }
   
   color get_cellColor() {

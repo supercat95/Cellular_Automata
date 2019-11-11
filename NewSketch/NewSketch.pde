@@ -41,27 +41,19 @@ int result4;
 void setup() {
   size(displayWidth,displayHeight);
   frameRate(20);
- 
+  
   initializeAnimationClips();
-  createFramesForClips();
   
   initializeCells();
   initializeValues();
 }
 
-void draw() {
-  pushMatrix();
-    scale(0.25,0.25);
-    animationClips[0].play();
-      image(animationClips[0], 0, 0);
-      image(animationClips[1], displayWidth - (displayWidth / 6), 0);
-      image(animationClips[2], 0, displayHeight / 2);
-      image(animationClips[3], displayWidth - (displayWidth / 6), displayHeight / 2);
-  popMatrix();
-  
-  //setRules(); 
-  //drawPatterns();
-  //cycleThroughDesigns(); 
+void draw() { 
+  setRules(); 
+  drawPatterns();
+  cycleThroughDesigns(); 
+   
+  playAnimatedClips();
 }
 
 //--------------------------------------------------------
@@ -70,26 +62,23 @@ void initializeAnimationClips() {
   animationClips[1] = new Movie(this, "animation2.mov");
   animationClips[2] = new Movie(this, "animation3.mov");
   animationClips[3] = new Movie(this, "animation4.mov");
-}
-
-void createFramesForClips() {
-  textureMode(NORMAL);
+  
   for (int i = 0; i < animationClips.length; i++) {
-    animationClips[i].play();
-    frames[i] = createShape();
-    
-    frames[i].beginShape();
-      frames[i].fill(0,0,255);
-      frames[i].texture(animationClips[i]);
-      
-      frames[i].vertex(0,0);
-      frames[i].vertex(displayWidth / 6, 0);
-      frames[i].vertex(displayWidth / 6, displayHeight / 6);
-      frames[i].vertex(0, displayHeight / 6);
-    frames[i].endShape(CLOSE);
+    animationClips[i].loop();
   }
 }
 
+void playAnimatedClips() {
+  pushMatrix();
+    scale(0.25,0.25);
+      image(animationClips[0], 0, 0);
+      image(animationClips[1], 3 * displayWidth, 0);
+      image(animationClips[2], 0, 3 * displayHeight);
+      image(animationClips[3], 3 * displayWidth, 3 * displayHeight);
+  popMatrix();
+}
+
+// does not need to be explicitly called
 void movieEvent(Movie animation) {
   animation.read();
 }
