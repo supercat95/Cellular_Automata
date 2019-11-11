@@ -1,3 +1,7 @@
+import processing.video.*;
+
+Movie[] animationClips = new Movie[4];
+
 int displayWidth = 400;
 int displayHeight = 400;
 
@@ -13,10 +17,10 @@ Cell[][] newCells2 = new Cell[displayWidth / 2][displayHeight / 2];
 Cell[][] newCells3 = new Cell[displayWidth / 2][displayHeight / 2];
 Cell[][] newCells4 = new Cell[displayWidth / 2][displayHeight / 2];
 
-boolean quadrant1;
-boolean quadrant2;
-boolean quadrant3;
-boolean quadrant4;
+boolean quadrant1 = true;
+boolean quadrant2 = false;
+boolean quadrant3 = false;
+boolean quadrant4 = false;
 
 int cellToLeft;
 int cellInMiddle;
@@ -32,6 +36,7 @@ int result2;
 int result3;
 int result4;
 
+//--------------------------------------------------------
 void setup() {
   size(displayWidth,displayHeight);
   frameRate(20);
@@ -39,59 +44,28 @@ void setup() {
   initializeCells();
   initializeValues();
   
-  quadrant1 = true;
-  quadrant2 = false;
-  quadrant3 = false;
-  quadrant4 = false;
+  animationClips[0] = new Movie(this, "animation1.mov");
+  animationClips[1] = new Movie(this, "animation2.mov");
+  animationClips[2] = new Movie(this, "animation3.mov");
+  animationClips[3] = new Movie(this, "animation4.mov");
+  
+  for (int i = 0; i < animationClips.length; i++) {
+    animationClips[i].play();
+  }
 }
 
 void draw() {
-  setRules(); 
+  pushMatrix();
+    scale(0.25,0.25);
+      image(animationClips[0], 0, 0);
+      image(animationClips[1], displayWidth - (displayWidth / 8), 0);
+      image(animationClips[2], 0, displayHeight / 2);
+      image(animationClips[3], displayWidth - (displayWidth / 8), displayHeight / 2);
+  popMatrix();
   
-  for (int i = 0; i < displayWidth / 2; i+= increment) {
-    for (int j = 0; j < displayHeight / 2; j+= increment) {  
-      
-      while (quadrant1) { 
-        pushMatrix();
-        translate(0,0); 
-        cells1[i][j].drawCell(i,j,increment, result1);
-        popMatrix();
-      }
-      while (quadrant2) { 
-        pushMatrix();
-        translate(displayWidth / 2, 0); 
-        cells2[i][j].drawCell(i,j,increment, result2);
-        popMatrix();
-      }
-      while (quadrant3) { 
-        pushMatrix();
-        translate(0, displayHeight / 2); 
-        cells3[i][j].drawCell(i,j,increment, result3);
-        popMatrix();
-      }
-      while (quadrant4) { 
-        pushMatrix();
-        translate(displayWidth / 2, displayHeight / 2); 
-        cells4[i][j].drawCell(i,j,increment, result4);
-        popMatrix();
-      }
-    }
-  }
-  if (quadrant1) { 
-      quadrant1 = !quadrant1;
-      quadrant2 = !quadrant2;
-  } else if (quadrant2) { 
-    quadrant2 = !quadrant1;
-    quadrant3 = !quadrant2;
-  } else if (quadrant3) { 
-    quadrant3 = !quadrant1;
-    quadrant4 = !quadrant2;
-  } else if (quadrant4) { 
-    quadrant4 = !quadrant4;
-    quadrant1 = !quadrant1;
-    initializeValues();
-  }
- 
+  setRules(); 
+  drawPatterns();
+  //cycleThroughDesigns(); 
 }
 
 //--------------------------------------------------------
@@ -122,30 +96,63 @@ void initializeValues() {
   }
 }
 
+//--------------------------------------------------------
 void setRules() {
-  for (int i = increment; i < displayHeight / 2 - increment; i+= increment) {
-    for (int j = increment; j < displayWidth / 2 - increment; j+= increment) {
-      cellToLeft = cells1[i-increment][j-increment].getValue();
-      cellToLeft = cells2[i-increment][j-increment].getValue();
-      cellToLeft = cells3[i-increment][j-increment].getValue();
-      cellToLeft = cells4[i-increment][j-increment].getValue();
-      
-      cellInMiddle = cells1[i][j-increment].getValue();
-      cellInMiddle = cells2[i][j-increment].getValue();
-      cellInMiddle = cells3[i][j-increment].getValue();
-      cellInMiddle = cells4[i][j-increment].getValue();
-      
-      cellToRight = cells1[i+increment][j-increment].getValue();
-      cellToRight = cells2[i+increment][j-increment].getValue();
-      cellToRight = cells3[i+increment][j-increment].getValue();
-      cellToRight = cells4[i+increment][j-increment].getValue();
-      
-      result1 = rules(cellToLeft, cellInMiddle, cellToRight);
-      result2 = rules(cellToLeft, cellInMiddle, cellToRight);
-      newCells1[i][j].set_cellColor(result1);
+  if (quadrant1) {
+    for (int i = increment; i < displayHeight / 2 - increment; i+= increment) {
+      for (int j = increment; j < displayWidth / 2 - increment; j+= increment) {
+        cellToLeft = cells1[i-increment][j-increment].getValue();
+        cellInMiddle = cells1[i][j-increment].getValue();
+        cellToRight = cells1[i+increment][j-increment].getValue();
+        
+        result1 = rules(cellToLeft, cellInMiddle, cellToRight);
+        newCells1[i][j].set_cellColor(result1);
+      }
     }
+    cells1 = newCells1;
   }
-  cells1 = newCells1;
+  
+  if (quadrant2) {
+    for (int i = increment; i < displayHeight / 2 - increment; i+= increment) {
+      for (int j = increment; j < displayWidth / 2 - increment; j+= increment) {
+        cellToLeft = cells2[i-increment][j-increment].getValue();
+        cellInMiddle = cells2[i][j-increment].getValue();
+        cellToRight = cells2[i+increment][j-increment].getValue();
+        
+        result2 = rules(cellToLeft, cellInMiddle, cellToRight);
+        newCells2[i][j].set_cellColor(result2);
+      }
+    }
+    cells2 = newCells2;
+  }
+  
+  if (quadrant3) {
+    for (int i = increment; i < displayHeight / 2 - increment; i+= increment) {
+      for (int j = increment; j < displayWidth / 2 - increment; j+= increment) {
+        cellToLeft = cells3[i-increment][j-increment].getValue();
+        cellInMiddle = cells3[i][j-increment].getValue();
+        cellToRight = cells3[i+increment][j-increment].getValue();
+        
+        result3 = rules(cellToLeft, cellInMiddle, cellToRight);
+        newCells3[i][j].set_cellColor(result3);
+      }
+    }
+    cells3 = newCells3;
+  }
+  
+  if (quadrant4) {
+    for (int i = increment; i < displayHeight / 2 - increment; i+= increment) {
+      for (int j = increment; j < displayWidth / 2 - increment; j+= increment) {
+        cellToLeft = cells4[i-increment][j-increment].getValue();
+        cellInMiddle = cells4[i][j-increment].getValue();
+        cellToRight = cells4[i+increment][j-increment].getValue();
+        
+        result4 = rules(cellToLeft, cellInMiddle, cellToRight);
+        newCells4[i][j].set_cellColor(result4);
+      }
+    }
+    cells4 = newCells4;
+  }
 }
 
 //--------------------------------------------------------
@@ -199,4 +206,53 @@ int rules(int left, int middle, int right) {
     if (quadrant4) return ruleset4[7];
   }
   return (ruleset1[int(random(ruleset1.length))]);
+}
+
+//--------------------------------------------------------
+void drawPatterns() {
+  for (int i = 0; i < displayWidth / 2; i+= increment) {
+    for (int j = 0; j < displayHeight / 2; j+= increment) {      
+      if (quadrant1) { 
+        pushMatrix();
+        translate(0,0); 
+        cells1[i][j].drawCell(i,j,increment, result1);
+        popMatrix();
+      }
+      if (quadrant2) { 
+        pushMatrix();
+        translate(displayWidth / 2, 0); 
+        cells2[i][j].drawCell(i,j,increment, result2);
+        popMatrix();
+      }
+      if (quadrant3) { 
+        pushMatrix();
+        translate(0, displayHeight / 2); 
+        cells3[i][j].drawCell(i,j,increment, result3);
+        popMatrix();
+      }
+      if (quadrant4) { 
+        pushMatrix();
+        translate(displayWidth / 2, displayHeight / 2); 
+        cells4[i][j].drawCell(i,j,increment, result4);
+        popMatrix();
+      }
+    }
+  }
+}
+
+void cycleThroughDesigns() {
+  if (quadrant1) { 
+    quadrant1 = !quadrant1;
+    quadrant2 = !quadrant2;
+  } else if (quadrant2) { 
+    quadrant2 = !quadrant2;
+    quadrant3 = !quadrant3;
+  } else if (quadrant3) { 
+    quadrant3 = !quadrant3;
+    quadrant4 = !quadrant4;
+  } else if (quadrant4) { 
+    quadrant4 = !quadrant4;
+    quadrant1 = !quadrant1;
+    initializeValues();
+  }
 }
